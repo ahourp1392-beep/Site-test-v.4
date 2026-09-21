@@ -1,883 +1,1383 @@
+```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Seviura Shop</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Tahoma,Arial,sans-serif;
+    background:#faf7f8;
+    color:#222;
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid #eee;
+}
+
+.nav{
+    max-width:1100px;
+    margin:auto;
+    padding:14px 18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.logo{
+    font-size:23px;
+    font-weight:bold;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+}
+
+.action{
+    border:0;
+    background:#f1ebee;
+    padding:10px 13px;
+    border-radius:12px;
+    cursor:pointer;
+    font-family:inherit;
+}
+
+.cart-btn{
+    background:#222;
+    color:white;
+}
+
+/* HERO */
+
+.hero{
+    max-width:1100px;
+    margin:20px auto;
+    padding:0 18px;
+}
+
+.hero-box{
+    background:linear-gradient(135deg,#f8dce7,#fff);
+    border-radius:25px;
+    padding:30px 22px;
+}
+
+.hero h1{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:#666;
+    line-height:1.9;
+}
+
+/* PRODUCTS */
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:0 18px 40px;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+}
+
+.card{
+    background:white;
+    border:1px solid #eee;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 7px 25px rgba(0,0,0,.05);
+}
+
+.product-image{
+    width:100%;
+    aspect-ratio:1/1;
+
+    background:#f4edf0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-  <meta charset="UTF-8">
+    overflow:hidden;
+
+    font-size:55px;
+}
+
+.product-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+.product-info{
+    padding:14px;
+}
 
-  <title>فروشگاه | نمونه کار</title>
+.product-name{
+    font-weight:bold;
+    font-size:16px;
+    margin-bottom:7px;
+}
 
+.description{
+    color:#777;
+    font-size:12px;
+    line-height:1.7;
+    min-height:40px;
+}
 
-  <style>
+.price{
+    font-size:16px;
+    font-weight:bold;
+    margin:12px 0;
+}
 
-    * {
-      box-sizing: border-box;
+.buy{
+    width:100%;
+    border:0;
+    background:#222;
+    color:white;
+    padding:12px;
+    border-radius:12px;
+    cursor:pointer;
+    font-family:inherit;
+}
 
-      margin: 0;
+.empty{
+    grid-column:1/-1;
+    text-align:center;
+    padding:40px;
+    color:#777;
+}
 
-      padding: 0;
-    }
+/* OVERLAY */
 
+.overlay{
+    display:none;
 
-    body {
-      font-family:
-        Tahoma,
-        Arial,
-        sans-serif;
+    position:fixed;
+    inset:0;
 
-      background: #f5f7fb;
+    background:rgba(0,0,0,.45);
 
-      color: #111827;
-    }
+    z-index:100;
+}
 
+.overlay.show{
+    display:block;
+}
 
-    header {
-      position: sticky;
+/* BOTTOM SHEET */
 
-      top: 0;
+.sheet{
+    position:absolute;
 
-      z-index: 10;
+    bottom:0;
+    left:0;
+    right:0;
 
-      background: white;
+    max-width:600px;
+    margin:auto;
 
-      border-bottom:
-        1px solid #e5e7eb;
+    background:white;
 
-      padding: 15px 18px;
+    border-radius:25px 25px 0 0;
 
-      display: flex;
+    padding:22px;
 
-      justify-content:
-        space-between;
+    max-height:80vh;
+    overflow:auto;
+}
 
-      align-items: center;
+.sheet-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 
-      gap: 10px;
-    }
+    margin-bottom:20px;
+}
 
+.close{
+    border:0;
+    background:#eee;
 
-    .logo {
-      font-weight: bold;
+    width:38px;
+    height:38px;
 
-      font-size: 19px;
-    }
+    border-radius:50%;
 
+    cursor:pointer;
 
-    .header-actions {
-      display: flex;
+    font-size:20px;
+}
 
-      gap: 7px;
+/* PROFILE */
 
-      align-items: center;
-    }
+.profile-box{
+    background:#f7f2f4;
 
+    padding:15px;
 
-    .header-btn {
-      border: 0;
+    border-radius:15px;
 
-      padding: 9px 11px;
+    margin-bottom:15px;
+}
 
-      border-radius: 10px;
+.profile-box div{
+    margin-bottom:7px;
+}
 
-      background: #f3f4f6;
+.profile-box div:last-child{
+    margin-bottom:0;
+}
 
-      color: #111827;
+.logout{
+    width:100%;
 
-      text-decoration: none;
+    margin-top:15px;
 
-      font-family: inherit;
+    padding:13px;
 
-      font-size: 12px;
+    border:0;
 
-      cursor: pointer;
-    }
+    border-radius:12px;
 
+    background:#222;
 
-    .cart-btn {
-      background: #111827;
+    color:white;
 
-      color: white;
-    }
+    font-family:inherit;
 
+    cursor:pointer;
+}
 
-    .container {
-      max-width: 1100px;
+/* CART */
 
-      margin: auto;
+.cart-item{
+    display:flex;
 
-      padding: 25px 16px;
-    }
+    align-items:center;
+    justify-content:space-between;
 
+    gap:10px;
 
-    .hero {
-      background:
-        linear-gradient(
-          135deg,
-          #111827,
-          #374151
-        );
+    padding:13px 0;
 
-      color: white;
+    border-bottom:1px solid #eee;
+}
 
-      border-radius: 24px;
+.cart-info{
+    flex:1;
+}
 
-      padding: 30px 22px;
+.cart-name{
+    font-weight:bold;
 
-      margin-bottom: 25px;
-    }
+    margin-bottom:5px;
+}
 
+.cart-price{
+    font-size:13px;
+    color:#777;
+}
 
-    .hero h1 {
-      font-size: 26px;
+.remove{
+    border:0;
 
-      margin-bottom: 8px;
-    }
+    background:#ffe5e5;
+    color:#a00000;
 
+    padding:8px 10px;
 
-    .hero p {
-      color: #d1d5db;
+    border-radius:9px;
 
-      line-height: 1.8;
+    cursor:pointer;
 
-      font-size: 14px;
-    }
+    font-family:inherit;
+}
 
+.total{
+    display:flex;
 
-    .status {
-      background: #eff6ff;
+    justify-content:space-between;
 
-      color: #1d4ed8;
+    margin-top:18px;
 
-      padding: 12px;
+    font-weight:bold;
 
-      border-radius: 12px;
+    font-size:17px;
+}
 
-      margin-bottom: 20px;
+.login-required{
+    text-align:center;
+    padding:20px 0;
+}
 
-      font-size: 13px;
-    }
+.login-link{
+    display:block;
 
+    background:#222;
+    color:white;
 
-    .products {
-      display: grid;
+    text-decoration:none;
 
-      grid-template-columns:
-        repeat(
-          auto-fill,
-          minmax(190px, 1fr)
-        );
+    padding:13px;
 
-      gap: 17px;
-    }
+    border-radius:12px;
 
+    margin-top:15px;
+}
 
-    .product {
-      background: white;
+/* TOAST */
 
-      border-radius: 18px;
+.toast{
+    position:fixed;
 
-      overflow: hidden;
+    bottom:20px;
+    left:50%;
 
-      box-shadow:
-        0 5px 20px
-        rgba(0,0,0,.05);
-    }
+    transform:
+        translateX(-50%)
+        translateY(100px);
 
+    background:#222;
+    color:white;
 
-    .product-image {
-      width: 100%;
+    padding:13px 18px;
 
-      height: 210px;
+    border-radius:13px;
 
-      object-fit: cover;
+    opacity:0;
 
-      background: #f3f4f6;
+    transition:.3s;
 
-      display: block;
-    }
+    z-index:200;
 
+    font-size:13px;
 
-    .no-image {
-      width: 100%;
+    white-space:nowrap;
+}
 
-      height: 210px;
+.toast.show{
+    transform:
+        translateX(-50%)
+        translateY(0);
 
-      display: flex;
+    opacity:1;
+}
 
-      align-items: center;
+/* DESKTOP */
 
-      justify-content: center;
+@media(min-width:700px){
 
-      background: #f3f4f6;
-
-      color: #9ca3af;
-
-      font-size: 45px;
-    }
-
-
-    .product-content {
-      padding: 15px;
-    }
-
-
-    .product-name {
-      font-weight: bold;
-
-      font-size: 16px;
-
-      margin-bottom: 7px;
-    }
-
-
-    .product-description {
-      color: #6b7280;
-
-      font-size: 12px;
-
-      line-height: 1.8;
-
-      min-height: 43px;
-
-      margin-bottom: 10px;
-    }
-
-
-    .product-bottom {
-      display: flex;
-
-      align-items: center;
-
-      justify-content:
-        space-between;
-
-      gap: 8px;
-    }
-
-
-    .price {
-      color: #2563eb;
-
-      font-weight: bold;
-
-      font-size: 14px;
-    }
-
-
-    .add-btn {
-      border: 0;
-
-      background: #111827;
-
-      color: white;
-
-      border-radius: 9px;
-
-      padding: 9px 10px;
-
-      font-family: inherit;
-
-      cursor: pointer;
-
-      font-size: 12px;
-    }
-
-
-    .cart-panel {
-      position: fixed;
-
-      inset: 0;
-
-      background:
-        rgba(0,0,0,.45);
-
-      z-index: 100;
-
-      display: none;
-
-      align-items: flex-end;
-
-      justify-content: center;
-    }
-
-
-    .cart-panel.open {
-      display: flex;
-    }
-
-
-    .cart-box {
-      background: white;
-
-      width: 100%;
-
-      max-width: 600px;
-
-      max-height: 85vh;
-
-      overflow-y: auto;
-
-      border-radius:
-        25px 25px 0 0;
-
-      padding: 22px;
-    }
-
-
-    .cart-header {
-      display: flex;
-
-      justify-content:
-        space-between;
-
-      align-items: center;
-
-      margin-bottom: 18px;
-    }
-
-
-    .close-btn {
-      border: 0;
-
-      background: #f3f4f6;
-
-      width: 35px;
-
-      height: 35px;
-
-      border-radius: 50%;
-
-      cursor: pointer;
-    }
-
-
-    .cart-item {
-      display: flex;
-
-      align-items: center;
-
-      gap: 10px;
-
-      padding: 10px 0;
-
-      border-bottom:
-        1px solid #eee;
-    }
-
-
-    .cart-item img {
-      width: 55px;
-
-      height: 55px;
-
-      object-fit: cover;
-
-      border-radius: 10px;
-    }
-
-
-    .cart-info {
-      flex: 1;
-    }
-
-
-    .cart-name {
-      font-weight: bold;
-
-      font-size: 13px;
-    }
-
-
-    .cart-price {
-      color: #2563eb;
-
-      font-size: 12px;
-
-      margin-top: 4px;
-    }
-
-
-    .remove-cart {
-      border: 0;
-
-      background: #fee2e2;
-
-      color: #dc2626;
-
-      border-radius: 8px;
-
-      padding: 7px;
-
-      cursor: pointer;
-    }
-
-
-    .empty {
-      text-align: center;
-
-      padding: 35px;
-
-      color: #9ca3af;
-    }
-
-
-    .profile-box {
-      background: white;
-
-      border-radius: 18px;
-
-      padding: 18px;
-
-      margin-bottom: 20px;
-
-      display: none;
-
-      box-shadow:
-        0 5px 20px
-        rgba(0,0,0,.05);
-    }
-
-
-    .profile-name {
-      font-weight: bold;
-
-      margin-bottom: 5px;
-    }
-
-
-    .profile-user {
-      color: #6b7280;
-
-      font-size: 13px;
-    }
-
-
-    .logout {
-      margin-top: 12px;
-
-      border: 0;
-
-      background: #fee2e2;
-
-      color: #dc2626;
-
-      padding: 9px 13px;
-
-      border-radius: 9px;
-
-      font-family: inherit;
-
-      cursor: pointer;
-    }
-
-
-    @media(max-width:500px) {
-
-      .products {
+    .products{
         grid-template-columns:
-          repeat(2, 1fr);
-
-        gap: 10px;
-      }
-
-
-      .product-image,
-      .no-image {
-        height: 170px;
-      }
-
-
-      .product-content {
-        padding: 11px;
-      }
-
-
-      .product-name {
-        font-size: 14px;
-      }
-
-
-      .product-description {
-        font-size: 11px;
-      }
-
-
-      .product-bottom {
-        flex-direction: column;
-
-        align-items: stretch;
-      }
-
-
-      .add-btn {
-        width: 100%;
-      }
-
+            repeat(4,minmax(0,1fr));
     }
 
-  </style>
+}
+
+</style>
 
 </head>
-
 
 <body>
 
 
+<!-- HEADER -->
+
 <header>
 
-  <div class="logo">
-    🛍️ نمونه کار
-  </div>
+    <div class="nav">
+
+        <div class="logo">
+            Seviura
+        </div>
+
+        <div class="actions">
+
+            <button
+                class="action"
+                onclick="openProfile()">
+
+                👤 پروفایل
+
+            </button>
 
 
-  <div class="header-actions">
+            <button
+                class="action cart-btn"
+                onclick="openCart()">
 
-    <button
-      class="header-btn"
-      onclick="toggleProfile()"
-    >
-      👤 پروفایل
-    </button>
+                🛒 سبد
 
+                <span id="cartCount">
+                    0
+                </span>
 
-    <button
-      class="header-btn cart-btn"
-      onclick="openCart()"
-    >
-      🛒 سبد
-      <span id="cartCount">0</span>
-    </button>
+            </button>
 
-  </div>
+        </div>
+
+    </div>
 
 </header>
 
 
+<!-- HERO -->
 
-<div class="container">
+<section class="hero">
+
+    <div class="hero-box">
+
+        <h1>
+            فروشگاه Seviura ✨
+        </h1>
+
+        <p>
+            محصولات مورد علاقه‌ات را ببین
+            و به سبد خرید اضافه کن.
+        </p>
+
+    </div>
+
+</section>
 
 
-  <div
-    class="profile-box"
-    id="profileBox"
-  >
+<!-- PRODUCTS -->
+
+<main class="container">
 
     <div
-      class="profile-name"
-      id="profileName"
-    ></div>
+        id="products"
+        class="products">
+    </div>
 
-    <div
-      class="profile-user"
-      id="profileUsername"
-    ></div>
-
-    <button
-      class="logout"
-      onclick="logout()"
-    >
-      خروج از حساب
-    </button>
-
-  </div>
+</main>
 
 
+<!-- PROFILE -->
 
-  <div class="hero">
+<div
+    id="profileOverlay"
+    class="overlay"
+    onclick="closeOutside(event,'profileOverlay')">
 
-    <h1>
-      فروشگاه
-    </h1>
+    <div class="sheet">
 
-    <p>
-      محصولات فروشگاه از فایل
-      products.json
-      دریافت می‌شوند.
-    </p>
+        <div class="sheet-head">
 
-  </div>
+            <h2>
+                پروفایل
+            </h2>
 
+            <button
+                class="close"
+                onclick="closeProfile()">
 
-  <div
-    class="status"
-    id="status"
-  >
-    در حال دریافت محصولات...
-  </div>
+                ×
 
+            </button>
 
-  <div
-    class="products"
-    id="products"
-  ></div>
+        </div>
+
+        <div id="profileContent"></div>
+
+    </div>
 
 </div>
-
 
 
 <!-- CART -->
 
 <div
-  class="cart-panel"
-  id="cartPanel"
-  onclick="closeCartOutside(event)"
->
+    id="cartOverlay"
+    class="overlay"
+    onclick="closeOutside(event,'cartOverlay')">
 
-  <div class="cart-box">
+    <div class="sheet">
 
-    <div class="cart-header">
+        <div class="sheet-head">
 
-      <h2>
-        🛒 سبد خرید
-      </h2>
+            <h2>
+                سبد خرید
+            </h2>
 
-      <button
-        class="close-btn"
-        onclick="closeCart()"
-      >
-        ✕
-      </button>
+            <button
+                class="close"
+                onclick="closeCart()">
+
+                ×
+
+            </button>
+
+        </div>
+
+        <div id="cartContent"></div>
 
     </div>
 
-
-    <div
-      id="cartItems"
-    ></div>
-
-  </div>
-
 </div>
 
+
+<!-- TOAST -->
+
+<div
+    id="toast"
+    class="toast">
+</div>
 
 
 <script>
 
 
+/* DATABASE */
+
 let database = {
 
-  users: [],
+    users:[],
 
-  products: []
+    products:[]
 
 };
 
 
-let cart = [];
+let currentUser = null;
 
 
-
-/* =====================================
-   USER
-===================================== */
-
-const currentUser =
-  JSON.parse(
-    localStorage.getItem(
-      "ahouranemone_logged_user"
-    )
-  );
+const USER_KEY =
+    "seviura_logged_user";
 
 
+/* CURRENT USER */
 
-/* =====================================
-   CART
-===================================== */
+function getCurrentUser(){
 
-function getCartKey() {
+    try{
 
-  if (currentUser) {
+        return JSON.parse(
+            localStorage.getItem(USER_KEY)
+        );
 
-    return (
-      "ahouranemone_cart_" +
-      currentUser.username
+    }
+
+    catch{
+
+        return null;
+
+    }
+
+}
+
+
+/* CART KEY */
+
+function getCartKey(){
+
+    if(!currentUser){
+
+        return null;
+
+    }
+
+    return "seviura_cart_" +
+        currentUser.username;
+
+}
+
+
+/* GET CART */
+
+function getCart(){
+
+    const key =
+        getCartKey();
+
+    if(!key){
+
+        return [];
+
+    }
+
+    try{
+
+        const cart =
+            JSON.parse(
+                localStorage.getItem(key)
+            );
+
+        return Array.isArray(cart)
+            ? cart
+            : [];
+
+    }
+
+    catch{
+
+        return [];
+
+    }
+
+}
+
+
+/* SAVE CART */
+
+function saveCart(cart){
+
+    const key =
+        getCartKey();
+
+    if(!key){
+
+        return;
+
+    }
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(cart)
     );
 
-  }
+}
 
-  return "ahouranemone_guest_cart";
+
+/* PRICE */
+
+function formatPrice(value){
+
+    return Number(value || 0)
+        .toLocaleString("fa-IR")
+        + " تومان";
 
 }
 
 
-function loadCart() {
+/* LOAD PRODUCTS */
 
-  try {
+async function loadProducts(){
 
-    const saved =
-      localStorage.getItem(
-        getCartKey()
-      );
+    try{
+
+        const response =
+            await fetch(
+                "./products.json?cache="
+                + Date.now(),
+                {
+                    cache:"no-store"
+                }
+            );
 
 
-    if (saved) {
+        if(!response.ok){
 
-      cart =
-        JSON.parse(saved);
+            throw new Error(
+                "products.json"
+            );
+
+        }
+
+
+        const text =
+            await response.text();
+
+
+        if(!text.trim()){
+
+            throw new Error(
+                "empty"
+            );
+
+        }
+
+
+        database =
+            JSON.parse(text);
+
+
+        database.users =
+            Array.isArray(database.users)
+            ? database.users
+            : [];
+
+
+        database.products =
+            Array.isArray(database.products)
+            ? database.products
+            : [];
+
+
+        renderProducts();
+
+        updateCartCount();
 
     }
 
-  } catch {
+    catch(error){
 
-    cart = [];
+        /*
+        عمداً هیچ پیام
+        products.json
+        نمایش داده نمی‌شود.
+        */
 
-  }
+        document
+            .getElementById("products")
+            .innerHTML = "";
 
-
-  updateCartCount();
-
-}
-
-
-
-function saveCart() {
-
-  localStorage.setItem(
-    getCartKey(),
-    JSON.stringify(cart)
-  );
-
-  updateCartCount();
+    }
 
 }
 
 
+/* SHOW PRODUCTS */
 
-function updateCartCount() {
+function renderProducts(){
 
-  document
-    .getElementById("cartCount")
-    .textContent =
-    cart.length;
-
-}
-
+    const box =
+        document.getElementById(
+            "products"
+        );
 
 
-/* =====================================
-   LOAD JSON
-===================================== */
+    if(
+        database.products.length === 0
+    ){
 
-async function loadDatabase() {
+        box.innerHTML = `
+            <div class="empty">
+                هنوز محصولی اضافه نشده است.
+            </div>
+        `;
 
-  try {
-
-    const response =
-      await fetch(
-        "products.json?cache=" +
-        Date.now()
-      );
-
-
-    if (!response.ok) {
-
-      throw new Error();
+        return;
 
     }
 
 
-    database =
-      await response.json();
+    box.innerHTML =
 
-
-    if (
-      !Array.isArray(
         database.products
-      )
-    ) {
-
-      database.products = [];
-
-    }
+        .map(product => {
 
 
-    renderProducts();
+            const image =
+                product.image
+
+                ?
+
+                `
+                <img
+                    src="${escapeAttribute(
+                        product.image
+                    )}"
+                    alt="${escapeAttribute(
+                        product.name
+                    )}"
+                >
+                `
+
+                :
+
+                `🛍️`;
 
 
-  } catch {
+            return `
 
-    document
-      .getElementById("status")
-      .textContent =
-      "❌ products.json پیدا نشد.";
+                <article class="card">
 
-  }
+                    <div class="product-image">
+
+                        ${image}
+
+                    </div>
+
+
+                    <div class="product-info">
+
+                        <div class="product-name">
+
+                            ${escapeHTML(
+                                product.name
+                            )}
+
+                        </div>
+
+
+                        <div class="description">
+
+                            ${escapeHTML(
+                                product.description || ""
+                            )}
+
+                        </div>
+
+
+                        <div class="price">
+
+                            ${formatPrice(
+                                product.price
+                            )}
+
+                        </div>
+
+
+                        <button
+                            class="buy"
+                            onclick="addToCart(
+                                ${Number(product.id)}
+                            )">
+
+                            افزودن به سبد
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+            `;
+
+        })
+
+        .join("");
 
 }
 
 
+/* ADD TO CART */
 
-/* =====================================
-   PRODUCTS
-===================================== */
+function addToCart(productId){
 
-function renderProducts() {
+    if(!currentUser){
+
+        showToast(
+            "برای افزودن به سبد ابتدا وارد حساب شو."
+        );
 
 
-  const container =
-    document.getElementById(
-      "products"
+        setTimeout(() => {
+
+            location.href =
+                "./index.html";
+
+        },700);
+
+
+        return;
+
+    }
+
+
+    const product =
+        database.products.find(
+            item =>
+                Number(item.id)
+                === Number(productId)
+        );
+
+
+    if(!product){
+
+        return;
+
+    }
+
+
+    const cart =
+        getCart();
+
+
+    cart.push({
+
+        id:product.id,
+
+        name:product.name,
+
+        price:
+            Number(product.price) || 0,
+
+        image:
+            product.image || ""
+
+    });
+
+
+    saveCart(cart);
+
+
+    updateCartCount();
+
+
+    showToast(
+        "محصول به سبد اضافه شد ✓"
     );
 
-
-  const products =
-    database.products;
+}
 
 
-  if (!products.length) {
+/* REMOVE CART ITEM */
 
-    container.innerHTML = `
+function removeCartItem(index){
 
-      <div class="empty">
+    const cart =
+        getCart();
 
-        هنوز محصولی اضافه نشده.
 
-      </div>
+    cart.splice(index,1);
 
-    `;
+
+    saveCart(cart);
+
+
+    renderCart();
+
+
+    updateCartCount();
+
+}
+
+
+/* CART COUNT */
+
+function updateCartCount(){
+
+    document
+        .getElementById("cartCount")
+        .textContent =
+            getCart().length;
+
+}
+
+
+/* OPEN CART */
+
+function openCart(){
+
+    document
+        .getElementById(
+            "cartOverlay"
+        )
+        .classList.add("show");
+
+
+    renderCart();
+
+}
+
+
+/* CLOSE CART */
+
+function closeCart(){
+
+    document
+        .getElementById(
+            "cartOverlay"
+        )
+        .classList.remove("show");
+
+}
+
+
+/* RENDER CART */
+
+function renderCart(){
+
+    const box =
+        document.getElementById(
+            "cartContent"
+        );
+
+
+    if(!currentUser){
+
+        box.innerHTML = `
+
+            <div class="login-required">
+
+                <p>
+                    برای استفاده از سبد خرید
+                    باید وارد حساب شوی.
+                </p>
+
+
+                <a
+                    class="login-link"
+                    href="./index.html">
+
+                    ورود / ثبت‌نام
+
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const cart =
+        getCart();
+
+
+    if(cart.length === 0){
+
+        box.innerHTML = `
+
+            <div class="login-required">
+
+                سبد خرید خالی است 🛒
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let total = 0;
+
+
+    box.innerHTML =
+
+        cart
+        .map((item,index) => {
+
+
+            total +=
+                Number(item.price) || 0;
+
+
+            return `
+
+                <div class="cart-item">
+
+                    <div class="cart-info">
+
+                        <div class="cart-name">
+
+                            ${escapeHTML(
+                                item.name
+                            )}
+
+                        </div>
+
+
+                        <div class="cart-price">
+
+                            ${formatPrice(
+                                item.price
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        class="remove"
+                        onclick="removeCartItem(
+                            ${index}
+                        )">
+
+                        حذف
+
+                    </button>
+
+                </div>
+
+            `;
+
+        })
+
+        .join("")
+
+        +
+
+        `
+
+            <div class="total">
+
+                <span>
+                    مجموع
+                </span>
+
+                <span>
+
+                    ${formatPrice(total)}
+
+                </span>
+
+            </div>
+
+        `;
+
+}
+
+
+/* OPEN PROFILE */
+
+function openProfile(){
+
+    const box =
+        document.getElementById(
+            "profileContent"
+        );
+
+
+    if(!currentUser){
+
+        box.innerHTML = `
+
+            <div class="login-required">
+
+                <p>
+                    هنوز وارد حساب نشده‌ای.
+                </p>
+
+
+                <a
+                    class="login-link"
+                    href="./index.html">
+
+                    ورود / ثبت‌نام
+
+                </a>
+
+            </div>
+
+        `;
+
+    }
+
+    else{
+
+        box.innerHTML = `
+
+            <div class="profile-box">
+
+                <div>
+
+                    <strong>
+                        نام:
+                    </strong>
+
+                    ${escapeHTML(
+                        currentUser.name || "-"
+                    )}
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        نام کاربری:
+                    </strong>
+
+                    ${escapeHTML(
+                        currentUser.username || "-"
+                    )}
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="logout"
+                onclick="logout()">
+
+                خروج از حساب
+
+            </button>
+
+        `;
+
+    }
 
 
     document
-      .getElementById("status")
-      .textContent =
-      "فروشگاه فعلاً محصولی ندارد.";
+        .getElementById(
+            "profileOverlay"
+        )
+        .classList.add("show");
 
-    return;
-
-  }
-
-
-  document
-    .getElementById("status")
-    .textContent =
-    products.length +
-    " محصول در فروشگاه موجود است.";
+}
 
 
-  container.innerHTML =
-    products
-      .map(
-        product => {
+/* CLOSE PROFILE */
+
+function closeProfile(){
+
+    document
+        .getElementById(
+            "profileOverlay"
+        )
+        .classList.remove("show");
+
+}
 
 
-          const image =
-            product.image;
+/* CLOSE OUTSIDE */
+
+function closeOutside(event,id){
+
+    if(
+        event.target.id === id
+    ){
+
+        document
+            .getElementById(id)
+            .classList.remove("show");
+
+    }
+
+}
 
 
-          const imageHTML =
-            image
+/* LOGOUT */
 
-              ?
+function logout(){
 
-              `
-                <img
-                  class="product-image"
-                  src="${escapeHTML(
+    localStorage.removeItem(
+        USER_KEY
+    );
+
+
+    currentUser = null;
+
+
+    updateCartCount();
+
+
+    closeProfile();
+
+
+    showToast(
+        "از حساب خارج شدی."
+    );
+
+}
+
+
+/* TOAST */
+
+function showToast(text){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        text;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    setTimeout(() => {
+
+        toast.classList.remove(
+            "show"
+        );
+
+    },2200);
+
+}
+
+
+/* SECURITY HTML */
+
+function escapeHTML(value){
+
+    return String(
+        value ?? ""
+    )
+
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
+
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
+
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
+
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
+
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
+
+}
+
+
+function escapeAttribute(value){
+
+    return escapeHTML(value);
+
+}
+
+
+/* START */
+
+currentUser =
+    getCurrentUser();
+
+
+loadProducts();
+
+</script>
+
+</body>
+</html>
+```
+     src="${escapeHTML(
                     image
                   )}"
                   alt="${escapeHTML(
